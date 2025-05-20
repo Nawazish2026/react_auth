@@ -1,0 +1,78 @@
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  background-color: #111;
+  padding: 20px;
+  overflow-y: auto; /* Allows vertical scrolling */
+  height: 100vh; /* Full height */
+}
+
+.section1 {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.heading1 {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  margin-left: 20px;
+}
+
+.heading1:hover {
+  color: #ff0080;
+}
+
+/* Make each category independently scrollable */
+.container {
+  margin-top: 2vh;
+  display: flex;
+  background-color: black;
+  width: 100%;
+  overflow-x: auto; /* Enable independent horizontal scrolling */
+  padding: 10px 5px 20px 5px;
+  gap: 5px;
+  border-radius: 8px;
+  flex-direction: row;
+  white-space: nowrap; /* Prevent wrapping */
+  scrollbar-width: none; /* Hide scrollbar */
+}
+
+/* Hide scrollbar for WebKit browsers */
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.mcard {
+  flex-shrink: 0; /* Prevent shrinking */
+  margin-top: 10px;
+  border-radius: 10px;
+  width: 130px;
+  height: 180px;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  background-color: rgb(128, 43, 0);
+}
+
+.poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+  border-radius: 6px;
+}
+
+/* Hover Effect */
+.mcard:hover {
+  transform: scale(1.5) rotate(-5deg);
+  box-shadow: 0 0 15px rgba(255, 0, 128, 0.8);
+  z-index: 10;
+}
+
+.mcard:hover .poster {
+  transform: scale(1.1);
+  filter: brightness(1.1);
+  box-shadow: 0 0 15px rgba(255, 0, 128, 0.8);
+  z-index: 10;
+}

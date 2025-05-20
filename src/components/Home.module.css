@@ -1,0 +1,12 @@
+.landingPage {
+ background-color: black;
+  width:fit-content;
+  height: max-content; /* Full height */
+  left: 0;
+  top: 0;
+}
+.nav{
+  position: fixed;
+  z-index: 1000;
+  margin-bottom: 30px;
+}

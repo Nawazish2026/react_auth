@@ -1,0 +1,74 @@
+.navbar{
+  width: max-width;
+  display: flex;
+  background-color: black;
+
+}
+.navbar ul {
+  display: flex;
+  background-color: #fff;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  background-color: blueviolet;
+}
+.navbar ul li {
+  text-decoration: none;
+  list-style: none;
+  color: black;
+  margin-right: 5vw;
+}
+.navbar ul li:hover {
+  color: #ff0080;
+}
+.logo{
+  margin-right: 5vw;
+  font-size: 20px; 
+  font-weight: bold;
+  text-align: center;
+   color: #fff;
+  position: relative;
+  text-shadow: 0 0 5px #ff0080, 0 0 10px #ff0080, 0 0 20px #ff0080, 0 0 40px #ff0080;
+  animation: flicker 1.5s infinite alternate;
+}
+  .languageSelector{
+    text-align: center;
+    justify-content: center;
+    margin: auto;
+    margin-right: 5vw;
+    margin-left: 50px;
+  }
+
+  .signin{
+    background-color: #ce1370;
+    font-weight: bold;
+    color: #fff;
+    font-family: "Winky Sans", sans-serif;
+    text-align: center;
+    justify-content: center;
+    margin-top: 37px;
+    border-radius: 7px;
+  }
+  
+  
+ @media screen and (max-width: 360px) {
+  .navbar {
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    width: max-content;
+  }
+
+  .navbar ul {
+    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .navbar ul li {
+    text-align: center;
+    justify-content: center;
+  }
+  
+}
+
