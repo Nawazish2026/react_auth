@@ -3,9 +3,6 @@ import Login from "./Login";
 import MovieCard from "./MovieCard";
 import Navbar from "./Navbar";
 
-
-
-
 export default function Home(){
   return(
     

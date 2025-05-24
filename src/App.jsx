@@ -3,6 +3,7 @@ import Login from './components/Login';
 import SignUp from './components/SignUp';
 import Home from './components/Home';
 
+
 import { Toaster } from 'react-hot-toast';
 export let data = JSON.parse(localStorage.getItem('userData')) || [];
 

@@ -1,43 +1,41 @@
 .navbar{
+
   width: 100vw;
   display: flex;
   align-items: center;
   position: sticky;
   top: -50;
-  left: 0;
+  left: 100px;
   right: 0;
   z-index: 1000; 
-  padding: 10px 20px;
   height: 10vh;
   background-color: black;
 }
-body, html {
-  margin: 0;
-  padding: 0;
-  
-}
+
 .navbar ul {
+  margin-left: 0vw;
   display: flex;
- 
   align-items: center;
   text-align: center;
   justify-content: center;
-  
-  margin-right: 0px;
+  margin-right: 10vw;
+  /* background-color: brown; */
 }
 .navbar ul li {
   text-decoration: none;
   list-style: none;
   color: #fff;
-  margin-right: 5vw;
+  margin-left: 4vw;
+  font-size: x-large; 
   
 }
 .navbar ul li:hover {
   color: #ff0080;
 }
 .logo{
-  margin-right: 5vw;
-  font-size: 20px; 
+  margin-right: 1vw;
+  margin-left: 4vw;
+  font-size: 30px; 
   font-weight: bold;
   text-align: center;
   color: #fff;
@@ -49,37 +47,37 @@ body, html {
   
   
   .right{
-    text-align: center;
-    justify-content: center;
     display: flex;
-    margin-right: 1.5vw;
-    margin-left: 13vw;
-    margin-top: 0;
-    width: 29vw;
-    height: 3.0vw;
-    /* background-color: bisque; */
-  }
-  .languageSelector{
     text-align: center;
     justify-content: center;
-    margin: auto;
-    margin-right: 5vw;
-    margin-left: 1vw;
-    border-radius: 2px;
+    align-items: center;
+    margin-left: 3vw;
+    margin-right: 0vw;
+    margin-top: 0;
+    width: 20vw;
+    height: 35px;
+    /* background-color: bisque; */
+    
   }
+  .languageDropdown {
+   border-radius: 2px;
+    height: 27px;
+    width: 8vw;
+}
 
-  .signin{
+
+  .btn{
     background-color: #ce1370;
     font-weight: bold;
     color: #fff;
     font-family: "Winky Sans", sans-serif;
     text-align: center;
     justify-content: center;
+    align-items: center;
     margin-left: 3vw;
-    border-radius: 8px;
-    height: 2.5vw;
-    width: 8vw;
-    margin-top: 1.5px;
+    border-radius: 10px;
+    height: 35px;
+    width: 105px;
     
     /* margin-right: 4p2vw; */
   }
