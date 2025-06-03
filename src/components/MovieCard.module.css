@@ -1,11 +1,42 @@
 .body {
   display: flex;
   flex-direction: column;
+  width: 100vw;
   gap: 40px;
   background-color: #111;
   padding: 20px;
-  overflow-y: auto; /* Allows vertical scrolling */
-  height: 100vh; /* Full height */
+  min-height: 100vh;
+  height: auto;
+  overflow-y: auto;
+  
+}
+
+.trend {
+  display: flex;
+  margin-top: 8.5vh;
+  width: 100%;
+  height: 40vh;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+  margin-bottom: 24px;
+  /* background-color: blue; */
+}
+
+.newPost {
+  width: 50vw;
+  height: 40vh;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.movieCard {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
 .section1 {
@@ -49,30 +80,39 @@
   flex-shrink: 0; /* Prevent shrinking */
   margin-top: 10px;
   border-radius: 10px;
-  width: 130px;
-  height: 180px;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  background-color: rgb(128, 43, 0);
+  margin-right: 1vw;
+  width: 23vw;
+  height: 19vh;
+  
+  
 }
 
 .poster {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease-in-out;
-  border-radius: 6px;
+  object-fit:fill;
+  
+  border-radius: 0.5vw;
 }
 
 /* Hover Effect */
 .mcard:hover {
-  transform: scale(1.5) rotate(-5deg);
-  box-shadow: 0 0 15px rgba(255, 0, 128, 0.8);
+  transform: scale(1.4) rotate(0deg);
   z-index: 10;
 }
 
 .mcard:hover .poster {
-  transform: scale(1.1);
-  filter: brightness(1.1);
-  box-shadow: 0 0 15px rgba(255, 0, 128, 0.8);
+  transform: scale(1.0);
+  filter: brightness(1.0);
   z-index: 10;
+}
+
+.shift{
+  color: #ff0080;
+  background-color: white;
+  
+}
+.shift:hover {
+  color: white;
+  background-color: #ff0080;
 }
