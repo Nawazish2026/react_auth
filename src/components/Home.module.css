@@ -1,12 +1,22 @@
-.landingPage {
- background-color: black;
-  width:fit-content;
-  height: max-content; /* Full height */
-  left: 0;
-  top: 0;
+/* --- Global Reset to prevent width calculation errors --- */
+* {
+  box-sizing: border-box;
 }
-.nav{
-  position: fixed;
+
+.landingPage {
+  background-color: #141414; /* Match your MovieCard theme */
+  width: 100%;       /* changed from fit-content to 100% */
+  min-height: 100vh; /* changed from max-content to min-height */
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Stops horizontal scroll */
+  display: flex;
+  flex-direction: column;
+}
+
+.nav {
+  position: sticky; /* Better than fixed for layout flow */
+  top: 0;
   z-index: 1000;
-  margin-bottom: 30px;
+  width: 100%;
 }
