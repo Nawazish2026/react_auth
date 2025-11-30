@@ -9,7 +9,7 @@ const BASE_URL = "https://api.themoviedb.org/3";
 const IMAGE_BASE = "https://image.tmdb.org/t/p/original"; // High res for Hero slider
 const POSTER_BASE = "https://image.tmdb.org/t/p/w500";   // Standard res for Cards
 
-// --- Sub-Component (Defined outside to prevent re-render bugs) ---
+// --- Sub-Component ---
 const MovieSection = ({ title, fetchUrl }) => {
   const [movies, setMovies] = useState([]);
   const scrollRef = useRef(null);
@@ -19,7 +19,6 @@ const MovieSection = ({ title, fetchUrl }) => {
       try {
         const response = await fetch(fetchUrl);
         const data = await response.json();
-        // Check if results exist before setting
         if (data.results) {
           setMovies(data.results);
         }
@@ -38,13 +37,23 @@ const MovieSection = ({ title, fetchUrl }) => {
       <div ref={scrollRef} className={styles.container}>
         {movies.map((movie) => (
           <div key={movie.id} className={styles.mcard}>
-            {movie.poster_path ? (
-              <img
-                src={`${POSTER_BASE}${movie.poster_path}`}
-                alt={movie.title || movie.name}
-                className={styles.poster}
-              />
-            ) : null}
+            {/* Image Container */}
+            <div className={styles.posterContainer}>
+              {movie.poster_path ? (
+                <img
+                  src={`${POSTER_BASE}${movie.poster_path}`}
+                  alt={movie.title || movie.name}
+                  className={styles.poster}
+                />
+              ) : (
+                <div className={styles.placeholder}>No Image</div>
+              )}
+            </div>
+
+            {/* Movie Title Below Poster */}
+            <p className={styles.movieTitle}>
+              {movie.title || movie.name}
+            </p>
           </div>
         ))}
       </div>
@@ -84,11 +93,11 @@ export default function MovieCard() {
 
   // 2. Define Categories and their API Endpoints
   const rows = [
-    { title: "Latest Movies", url: `${BASE_URL}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1` },
-    { title: "Web Series", url: `${BASE_URL}/trending/tv/week?api_key=${API_KEY}&language=en-US` },
-    { title: "Popular Movies", url: `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=1` },
     { title: "Trending This Week", url: `${BASE_URL}/trending/movie/week?api_key=${API_KEY}` },
+    { title: "Popular Movies", url: `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=1` },
+    { title: "Web Series", url: `${BASE_URL}/trending/tv/week?api_key=${API_KEY}&language=en-US` },
     { title: "Action Movies", url: `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=28` },
+    { title: "Latest Movies", url: `${BASE_URL}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1` },
     { title: "Classic Movies", url: `${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=en-US` },
   ];
 
@@ -96,21 +105,42 @@ export default function MovieCard() {
     <div className={styles.body}>
       {/* --- TRENDING SLIDER SECTION --- */}
       <div className={styles.trend}>
-        <button className={styles.shift} onClick={handleBack}>
+        
+        {/* Navigation Left */}
+        <button className={`${styles.shift} ${styles.left}`} onClick={handleBack}>
           <ArrowBack />
         </button>
 
         {trending.length > 0 && (
-          <img
-            key={trending[ind].id}
-            // Prefer backdrop (horizontal) for slider, fall back to poster
-            src={`${IMAGE_BASE}${trending[ind].backdrop_path || trending[ind].poster_path}`}
-            alt={trending[ind].title}
-            className={styles.newPost}
-          />
+          <div className={styles.heroContainer}>
+            {/* Main Hero Image */}
+            <img
+              key={trending[ind].id}
+              src={`${IMAGE_BASE}${trending[ind].backdrop_path || trending[ind].poster_path}`}
+              alt={trending[ind].title}
+              className={styles.newPost}
+            />
+            
+            {/* Gradient Overlay */}
+            <div className={styles.heroOverlay}></div>
+
+            {/* Movie Info Overlay */}
+            <div className={styles.heroInfo}>
+              <h1 className={styles.heroTitle}>
+                {trending[ind].title || trending[ind].name}
+              </h1>
+              <p className={styles.heroDate}>
+                {trending[ind].release_date || trending[ind].first_air_date} • Trending #{ind + 1}
+              </p>
+              <p className={styles.heroOverview}>
+                {trending[ind].overview ? trending[ind].overview.slice(0, 150) + "..." : ""}
+              </p>
+            </div>
+          </div>
         )}
 
-        <button className={styles.shift} onClick={handleForward}>
+        {/* Navigation Right */}
+        <button className={`${styles.shift} ${styles.right}`} onClick={handleForward}>
           <ArrowForward />
         </button>
       </div>
