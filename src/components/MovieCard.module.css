@@ -1,4 +1,7 @@
 /* --- Main Layout --- */
+* {
+  box-sizing: border-box; 
+}
 .body {
   background-color: #141414;
   min-height: 100vh;
