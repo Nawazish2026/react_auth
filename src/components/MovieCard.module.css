@@ -1,11 +1,12 @@
 /* --- Main Layout --- */
 .body {
-  background-color: #141414; /* Netflix-style dark background */
+  background-color: #141414;
   min-height: 100vh;
   width: 100%;
   color: white;
   padding-bottom: 50px;
-  overflow-x: hidden; /* Prevent horizontal scroll on body */
+  overflow-x: hidden;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 /* --- Hero / Trending Section --- */
@@ -15,30 +16,79 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 50vh; /* Taller hero section */
-  margin-top: 20px;
+  height: 60vh;
   margin-bottom: 40px;
-  gap: 20px;
+}
+
+.heroContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .newPost {
-  width: 70vw; /* Wider hero image */
+  width: 100%;
   height: 100%;
-  border-radius: 12px;
-  object-fit: cover; /* Prevents distortion */
-  object-position: top; /* Focus on faces/top of poster */
-  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.8); /* Cinematic shadow */
-  transition: transform 0.5s ease;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.7s ease;
 }
 
-/* Navigation Buttons (Glassmorphism style) */
+/* Gradient Overlay */
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, #141414 10%, transparent 60%);
+}
+
+/* Text Info on Hero Image */
+.heroInfo {
+  position: absolute;
+  bottom: 20%;
+  left: 5%;
+  max-width: 50%;
+  z-index: 2;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.heroTitle {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  line-height: 1.1;
+}
+
+.heroDate {
+  font-size: 1.1rem;
+  color: #46d369; /* Accent Green */
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.heroOverview {
+  font-size: 1rem;
+  color: #ddd;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Navigation Buttons */
 .shift {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   width: 50px;
   height: 50px;
   border-radius: 50%;
   border: none;
-  background-color: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.5);
   color: white;
   display: flex;
   align-items: center;
@@ -46,13 +96,21 @@
   cursor: pointer;
   transition: all 0.3s ease;
   z-index: 10;
+  opacity: 0; /* Hidden by default */
+}
+
+.trend:hover .shift {
+  opacity: 1;
 }
 
 .shift:hover {
-  background-color: #ff0080;
-  transform: scale(1.1);
-  box-shadow: 0 0 10px #ff0080;
+  background-color: white;
+  color: black;
+  transform: translateY(-50%) scale(1.2);
 }
+
+.left { left: 20px; }
+.right { right: 20px; }
 
 /* --- Movie List Sections --- */
 .movieCard {
@@ -60,6 +118,9 @@
   flex-direction: column;
   gap: 30px;
   padding-left: 20px;
+  margin-top: -50px;
+  z-index: 5;
+  position: relative;
 }
 
 .section1 {
@@ -69,19 +130,18 @@
 
 .heading1 {
   color: #e5e5e5;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 600;
   margin-bottom: 10px;
   margin-left: 10px;
-  transition: color 0.3s ease;
-  cursor: pointer;
-  border-left: 4px solid transparent;
   padding-left: 10px;
+  border-left: 4px solid transparent;
+  transition: all 0.3s ease;
 }
 
 .heading1:hover {
-  color: #ff0080;
-  border-left: 4px solid #ff0080;
+  color: white;
+  border-left: 4px solid #e50914;
 }
 
 /* --- Horizontal Scrolling Container --- */
@@ -91,62 +151,92 @@
   overflow-x: auto;
   overflow-y: hidden;
   gap: 15px;
-  padding: 20px 10px 40px 10px; /* Extra bottom padding for hover scaling */
+  padding: 20px 10px 40px 10px;
   scroll-behavior: smooth;
+  scrollbar-width: none;
 }
 
-/* Hide Scrollbar */
 .container::-webkit-scrollbar {
   display: none;
-}
-.container {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
 
 /* --- Individual Movie Cards --- */
 .mcard {
   flex-shrink: 0;
-  width: 160px;  /* Fixed width for consistency */
-  height: 240px; /* Fixed height for consistency */
-  border-radius: 8px;
-  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), z-index 0.3s;
+  width: 150px;
+  height: auto; /* Let height grow with text */
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, z-index 0.3s;
   cursor: pointer;
   position: relative;
+}
+
+/* Image Wrapper */
+.posterContainer {
+  width: 100%;
+  height: 225px; /* Fixed height for image */
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
 
 .poster {
   width: 100%;
   height: 100%;
-  border-radius: 8px;
-  object-fit: cover; /* Crucial: Crops image to fit without squishing */
-  transition: filter 0.3s ease;
+  object-fit: cover;
 }
 
-/* --- Card Hover Effects --- */
+.placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #333;
+  color: #777;
+}
+
+/* --- Movie Title Styles --- */
+.movieTitle {
+  margin-top: 8px;
+  color: #b3b3b3;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: left;
+  
+  /* Text Truncation */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+  padding: 0 2px;
+  transition: color 0.3s ease;
+}
+
+/* --- Hover Effects --- */
 .mcard:hover {
-  transform: scale(1.15); /* Smooth scale up */
-  z-index: 99; /* Bring to front */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+  transform: scale(1.1);
+  z-index: 100;
 }
 
-.mcard:hover .poster {
-  filter: brightness(1.1); /* Slightly brighten on hover */
+.mcard:hover .posterContainer {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.mcard:hover .movieTitle {
+  color: white;
+  font-weight: bold;
 }
 
 /* Responsive Tweaks */
 @media (max-width: 768px) {
-  .newPost {
-    width: 90vw;
-    height: 30vh;
-  }
+  .trend { height: 40vh; }
+  .heroTitle { font-size: 1.8rem; }
+  .heroInfo { bottom: 10%; max-width: 90%; left: 10px; }
+  .heroOverview { display: none; }
   
-  .trend {
-    height: 30vh;
-  }
-
-  .mcard {
-    width: 120px;
-    height: 180px;
-  }
+  .mcard { width: 110px; }
+  .posterContainer { height: 165px; }
 }
