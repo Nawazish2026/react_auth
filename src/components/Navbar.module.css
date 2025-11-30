@@ -1,113 +1,89 @@
-.navbar{
-
-  width: 100vw;
+.navbar {
+  width: 100%; /* changed from 100vw */
   display: flex;
   align-items: center;
+  justify-content: space-between; /* Spreads logo/links/search apart */
   position: sticky;
-  top: -50;
-  left: 100px;
-  right: 0;
+  top: 0;
+  left: 0;
   z-index: 1000; 
-  height: 10vh;
-  background-color: black;
-  
+  height: 70px; /* Fixed height is cleaner than 10vh */
+  background-color: rgba(0, 0, 0, 0.9); /* Slight transparency looks premium */
+  backdrop-filter: blur(10px); /* Glass effect */
+  padding: 0 40px; /* Add breathing room on sides */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 
 .navbar ul {
-  margin-left: 0vw;
   display: flex;
   align-items: center;
-  text-align: center;
-  justify-content: center;
-  margin-right: 10vw;
-  /* background-color: brown; */
+  list-style: none;
+  gap: 30px; /* Cleaner than margin-left/right */
+  margin: 0;
+  padding: 0;
 }
+
 .navbar ul li {
   text-decoration: none;
-  list-style: none;
-  color: #fff;
-  margin-left: 4vw;
-  font-size: x-large; 
-  
+  color: #e5e5e5;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
+
 .navbar ul li:hover {
   color: #ff0080;
 }
-.logo{
-  margin-right: 1vw;
-  margin-left: 4vw;
-  font-size: 30px; 
+
+.logo {
+  font-size: 28px; 
   font-weight: bold;
-  text-align: center;
   color: #fff;
-  position: relative;
-  text-shadow: 0 0 5px #ff0080, 0 0 10px #ff0080, 0 0 20px #ff0080, 0 0 40px #ff0080;
-  animation: flicker 1.5s infinite alternate;
-  background-color: black;
-}
-  
-  
-  .right{
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    margin-left: 3vw;
-    margin-right: 0vw;
-    margin-top: 0;
-    width: 20vw;
-    height: 35px;
-    /* background-color: bisque; */
-    
-  }
-  .languageDropdown {
-   border-radius: 2px;
-    height: 27px;
-    width: 8vw;
+  text-shadow: 0 0 10px #ff0080, 0 0 20px #ff0080;
+  cursor: pointer;
+  margin: 0 20px;
 }
 
+/* Right Section (Search, Lang, Button) */
+.right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
 
-  .btn{
-    background-color: #ce1370;
-    font-weight: bold;
-    color: #fff;
-    font-family: "Winky Sans", sans-serif;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    margin-left: 3vw;
-    border-radius: 10px;
-    height: 35px;
-    width: 105px;
-    
-    /* margin-right: 4p2vw; */
+.languageDropdown {
+  padding: 5px;
+  border-radius: 4px;
+  background-color: #333;
+  color: white;
+  border: 1px solid #444;
+}
+
+.btn {
+  background-color: #ce1370;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn:hover {
+  background-color: #a00e57;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+  .navbar {
+    padding: 0 15px;
   }
-  
-  /*.navbar ul {
-    text-align: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 25px;
-    margin-right: 5vw;
+  .navbar ul {
+    gap: 15px;
   }
-  
-  .right{
-    text-align: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-left: 7vw;
-  }
-  .languageSelector{
-    margin-top: 15px;
-    padding: 5px 5px;
-    border-radius: 8px;
-    margin-right: 2vw;
-    margin-left: 16px;
-  }
-  .signin{
-    margin-bottom: 35px;
-    margin-right: 0px;
-    margin-left: 14px;
+  .navbar ul li {
+    font-size: 0.9rem;
   }
 }
- */
