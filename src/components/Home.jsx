@@ -5,6 +5,7 @@ import Navbar from "./Navbar";
 export default function Home(){
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchActive, setIsSearchActive] = useState(false);
+  const [activeTab, setActiveTab] = useState("home");
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -23,12 +24,14 @@ export default function Home(){
         searchQuery={searchQuery} 
         setSearchQuery={setSearchQuery}
         onSearch={handleSearch}
-        isSearchActive={isSearchActive}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
       />
       <MovieCard 
         searchQuery={searchQuery} 
         isSearchActive={isSearchActive}
         onClearSearch={handleClearSearch}
+        activeTab={activeTab}
       />
     </div>
   );

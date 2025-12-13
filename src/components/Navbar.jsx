@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { FaSearch } from "react-icons/fa";
 
-export default function Navbar({ searchQuery, setSearchQuery, onSearch }) {
-  const [language, setLanguage] = useState("en");
+export default function Navbar({ searchQuery, setSearchQuery, onSearch, activeTab, setActiveTab }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -13,8 +12,8 @@ export default function Navbar({ searchQuery, setSearchQuery, onSearch }) {
     navigate('/');
   };
 
-  const handleLanguageChange = (event) => {
-    setLanguage(event.target.value);
+  const handleNavClick = (tab) => {
+    setActiveTab(tab);
   };
 
   return (
@@ -24,14 +23,28 @@ export default function Navbar({ searchQuery, setSearchQuery, onSearch }) {
           
           {/* Logo and Nav Links */}
           <div className="flex items-center gap-8">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent cursor-pointer">
               playN
             </h1>
             <ul className="hidden md:flex gap-6">
-              <li className="text-gray-300 hover:text-pink-500 transition cursor-pointer font-medium">Home</li>
-              <li className="text-gray-300 hover:text-pink-500 transition cursor-pointer font-medium">Series</li>
-              <li className="text-gray-300 hover:text-pink-500 transition cursor-pointer font-medium">Movies</li>
-              <li className="text-gray-300 hover:text-pink-500 transition cursor-pointer font-medium">Settings</li>
+              <li 
+                onClick={() => handleNavClick('home')}
+                className={`cursor-pointer font-medium transition ${activeTab === 'home' ? 'text-pink-500' : 'text-gray-300 hover:text-pink-500'}`}
+              >
+                Home
+              </li>
+              <li 
+                onClick={() => handleNavClick('movies')}
+                className={`cursor-pointer font-medium transition ${activeTab === 'movies' ? 'text-pink-500' : 'text-gray-300 hover:text-pink-500'}`}
+              >
+                Movies
+              </li>
+              <li 
+                onClick={() => handleNavClick('series')}
+                className={`cursor-pointer font-medium transition ${activeTab === 'series' ? 'text-pink-500' : 'text-gray-300 hover:text-pink-500'}`}
+              >
+                Series
+              </li>
             </ul>
           </div>
 
@@ -43,7 +56,7 @@ export default function Navbar({ searchQuery, setSearchQuery, onSearch }) {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && onSearch()}
-              className="bg-transparent text-white placeholder-gray-400 outline-none flex-grow"
+              className="bg-transparent text-white placeholder-gray-400 outline-none flex-grow text-sm"
             />
             <button
               type="button"
@@ -55,23 +68,12 @@ export default function Navbar({ searchQuery, setSearchQuery, onSearch }) {
           </div>
 
           {/* Right Section */}
-          <div className="flex items-center gap-4">
-            <select
-              value={language}
-              onChange={handleLanguageChange}
-              className="bg-gray-800 text-white border border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-pink-500 transition"
-            >
-              <option value="en">English</option>
-              <option value="hi">हिंदी</option>
-            </select>
-
-            <button
-              onClick={handleLogout}
-              className="bg-gradient-to-r from-pink-600 to-pink-500 hover:from-pink-700 hover:to-pink-600 text-white font-semibold px-6 py-2 rounded-lg transition transform hover:scale-105 shadow-lg"
-            >
-              Logout
-            </button>
-          </div>
+          <button
+            onClick={handleLogout}
+            className="bg-gradient-to-r from-pink-600 to-pink-500 hover:from-pink-700 hover:to-pink-600 text-white font-semibold px-6 py-2 rounded-lg transition transform hover:scale-105 shadow-lg"
+          >
+            Logout
+          </button>
         </div>
       </div>
     </nav>

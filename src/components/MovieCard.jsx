@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import ArrowBack from '@mui/icons-material/ArrowBackIos';
 import ArrowForward from '@mui/icons-material/ArrowForwardIos';
 
-const API_KEY = "176cd0c397c163de88f2723e9d571bb9";
+const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 const IMAGE_BASE = "https://image.tmdb.org/t/p/original";
 const POSTER_BASE = "https://image.tmdb.org/t/p/w500";
@@ -256,7 +256,7 @@ const SearchResults = ({ searchQuery, onClearSearch }) => {
 };
 
 // --- Main Component ---
-export default function MovieCard({ searchQuery = "", isSearchActive, onClearSearch }) {
+export default function MovieCard({ searchQuery = "", isSearchActive, onClearSearch, activeTab }) {
   const [ind, setInd] = useState(0);
   const [trending, setTrending] = useState([]);
 
@@ -283,13 +283,27 @@ export default function MovieCard({ searchQuery = "", isSearchActive, onClearSea
     setInd((prevInd) => (prevInd - 1 + trending.length) % trending.length);
   };
 
-  const rows = [
+  const rows = activeTab === 'home' ? [
     { title: "Trending This Week", url: `${BASE_URL}/trending/movie/week?api_key=${API_KEY}` },
     { title: "Popular Movies", url: `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=1` },
     { title: "Web Series", url: `${BASE_URL}/trending/tv/week?api_key=${API_KEY}&language=en-US` },
     { title: "Action Movies", url: `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=28` },
     { title: "Latest Movies", url: `${BASE_URL}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1` },
     { title: "Classic Movies", url: `${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=en-US` },
+  ] : activeTab === 'movies' ? [
+    { title: "Popular Movies", url: `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=1` },
+    { title: "Action Movies", url: `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=28` },
+    { title: "Comedy Movies", url: `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=35` },
+    { title: "Drama Movies", url: `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=18` },
+    { title: "Latest Movies", url: `${BASE_URL}/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1` },
+    { title: "Top Rated Movies", url: `${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=en-US` },
+  ] : [
+    { title: "Popular Series", url: `${BASE_URL}/tv/popular?api_key=${API_KEY}&language=en-US` },
+    { title: "Trending Series", url: `${BASE_URL}/trending/tv/week?api_key=${API_KEY}` },
+    { title: "Top Rated Series", url: `${BASE_URL}/tv/top_rated?api_key=${API_KEY}&language=en-US` },
+    { title: "Sci-Fi Series", url: `${BASE_URL}/discover/tv?api_key=${API_KEY}&with_genres=10765` },
+    { title: "Drama Series", url: `${BASE_URL}/discover/tv?api_key=${API_KEY}&with_genres=18` },
+    { title: "Thriller Series", url: `${BASE_URL}/discover/tv?api_key=${API_KEY}&with_genres=10759` },
   ];
 
   if (isSearchActive) {
@@ -298,11 +312,9 @@ export default function MovieCard({ searchQuery = "", isSearchActive, onClearSea
 
   return (
     <div className="bg-gradient-to-b from-black via-gray-900 to-black">
-      {/* --- TRENDING SLIDER SECTION --- */}
       {trending.length > 0 && (
         <div className="relative h-96 md:h-[500px] lg:h-screen overflow-hidden group">
           
-          {/* Left Arrow */}
           <button 
             onClick={handleBack}
             className="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 hover:bg-pink-600 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm"
@@ -310,7 +322,6 @@ export default function MovieCard({ searchQuery = "", isSearchActive, onClearSea
             <ArrowBack size={28} />
           </button>
 
-          {/* Hero Image */}
           <div key={trending[ind].id} className="relative w-full h-full">
             <img
               src={`${IMAGE_BASE}${trending[ind].backdrop_path || trending[ind].poster_path}`}
@@ -318,11 +329,9 @@ export default function MovieCard({ searchQuery = "", isSearchActive, onClearSea
               className="w-full h-full object-cover"
             />
             
-            {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent"></div>
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
 
-            {/* Movie Info */}
             <div className="absolute bottom-0 left-0 p-6 md:p-12 max-w-2xl">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 drop-shadow-lg">
                 {trending[ind].title || trending[ind].name}
@@ -344,7 +353,6 @@ export default function MovieCard({ searchQuery = "", isSearchActive, onClearSea
             </div>
           </div>
 
-          {/* Right Arrow */}
           <button 
             onClick={handleForward}
             className="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-black/50 hover:bg-pink-600 text-white p-3 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 backdrop-blur-sm"
@@ -352,7 +360,6 @@ export default function MovieCard({ searchQuery = "", isSearchActive, onClearSea
             <ArrowForward size={28} />
           </button>
 
-          {/* Slider Indicators */}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-20">
             {trending.map((_, i) => (
               <button
@@ -365,7 +372,6 @@ export default function MovieCard({ searchQuery = "", isSearchActive, onClearSea
         </div>
       )}
 
-      {/* --- MOVIE LISTS SECTION --- */}
       <div className="pb-12">
         {rows.map((row, index) => (
           <MovieSection key={index} title={row.title} fetchUrl={row.url} searchQuery={searchQuery} />
