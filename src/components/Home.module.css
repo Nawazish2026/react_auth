@@ -20,3 +20,102 @@
   z-index: 1000;
   width: 100%;
 }
+
+.searchResultsContainer {
+  padding: 20px;
+}
+
+.searchHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.searchHeader h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 24px;
+}
+
+.clearSearchBtn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.clearSearchBtn:hover {
+  background: #dc2626;
+}
+
+.horizontalScrollContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.searchHorizontalScroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px 0;
+  flex: 1;
+}
+
+.searchHorizontalScroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.searchHorizontalScroll::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  border-radius: 10px;
+}
+
+.searchHorizontalScroll::-webkit-scrollbar-thumb {
+  background: #666;
+  border-radius: 10px;
+}
+
+.searchHorizontalScroll::-webkit-scrollbar-thumb:hover {
+  background: #888;
+}
+
+.scrollBtn {
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.2s;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+.scrollBtn:hover {
+  background: rgba(0, 0, 0, 0.9);
+}
+
+.scrollBtnLeft {
+  order: -1;
+}
+
+.scrollBtnRight {
+  order: 3;
+}
+
+.loading,
+.noResults {
+  color: #ccc;
+  font-size: 18px;
+  padding: 40px;
+  text-align: center;
+}
