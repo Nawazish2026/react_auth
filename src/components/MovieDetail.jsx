@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { FaTimes, FaPlay, FaStar, FaCalendar } from 'react-icons/fa';
+import { FaTimes, FaPlay, FaStar, FaCalendar, FaBookmark } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -9,6 +10,7 @@ export default function MovieDetail({ movie, isOpen, onClose }) {
   const [details, setDetails] = useState(null);
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [inWatchlist, setInWatchlist] = useState(false);
 
   useEffect(() => {
     if (!isOpen || !movie) return;
@@ -32,6 +34,10 @@ export default function MovieDetail({ movie, isOpen, onClose }) {
         );
         const videosData = await videosRes.json();
         setVideos(videosData.results || []);
+
+        // Check if in watchlist
+        const watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
+        setInWatchlist(watchlist.some(m => m.id === movieId));
       } catch (error) {
         console.error("Error fetching details:", error);
       } finally {
@@ -41,6 +47,26 @@ export default function MovieDetail({ movie, isOpen, onClose }) {
 
     fetchDetails();
   }, [isOpen, movie]);
+
+  const handleAddToWatchlist = () => {
+    const watchlist = JSON.parse(localStorage.getItem('watchlist')) || [];
+    
+    if (inWatchlist) {
+      const updated = watchlist.filter(m => m.id !== movie.id);
+      localStorage.setItem('watchlist', JSON.stringify(updated));
+      setInWatchlist(false);
+      toast.success('Removed from watchlist');
+    } else {
+      watchlist.push({
+        id: movie.id,
+        title: movie.title || movie.name,
+        poster_path: movie.poster_path
+      });
+      localStorage.setItem('watchlist', JSON.stringify(watchlist));
+      setInWatchlist(true);
+      toast.success('Added to watchlist');
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -214,6 +240,17 @@ export default function MovieDetail({ movie, isOpen, onClose }) {
                 <button className="flex-1 bg-gradient-to-r from-pink-600 to-pink-500 hover:from-pink-700 hover:to-pink-600 text-white font-semibold py-3 rounded-lg transition transform hover:scale-105 flex items-center justify-center gap-2">
                   <FaPlay size={18} />
                   Watch Now
+                </button>
+                <button
+                  onClick={handleAddToWatchlist}
+                  className={`flex-1 font-semibold py-3 rounded-lg transition transform hover:scale-105 flex items-center justify-center gap-2 ${
+                    inWatchlist
+                      ? 'bg-purple-700 hover:bg-purple-800 text-white'
+                      : 'bg-gray-700/50 hover:bg-gray-600 text-white border border-gray-600'
+                  }`}
+                >
+                  <FaBookmark size={18} />
+                  {inWatchlist ? 'In Watchlist' : 'Add to Watchlist'}
                 </button>
                 <button
                   onClick={onClose}

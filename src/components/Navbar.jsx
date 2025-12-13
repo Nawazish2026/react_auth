@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import { FaSearch } from "react-icons/fa";
+import { FaSearch, FaBookmark } from "react-icons/fa";
 
-export default function Navbar({ searchQuery, setSearchQuery, onSearch, activeTab, setActiveTab }) {
+export default function Navbar({ searchQuery, setSearchQuery, onSearch, activeTab, setActiveTab, onWatchlistClick }) {
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -68,12 +68,22 @@ export default function Navbar({ searchQuery, setSearchQuery, onSearch, activeTa
           </div>
 
           {/* Right Section */}
-          <button
-            onClick={handleLogout}
-            className="bg-gradient-to-r from-pink-600 to-pink-500 hover:from-pink-700 hover:to-pink-600 text-white font-semibold px-6 py-2 rounded-lg transition transform hover:scale-105 shadow-lg"
-          >
-            Logout
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={onWatchlistClick}
+              className="bg-purple-600 hover:bg-purple-700 text-white font-semibold px-4 py-2 rounded-lg transition transform hover:scale-105 flex items-center gap-2"
+            >
+              <FaBookmark size={16} />
+              Watchlist
+            </button>
+
+            <button
+              onClick={handleLogout}
+              className="bg-gradient-to-r from-pink-600 to-pink-500 hover:from-pink-700 hover:to-pink-600 text-white font-semibold px-6 py-2 rounded-lg transition transform hover:scale-105 shadow-lg"
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </div>
     </nav>

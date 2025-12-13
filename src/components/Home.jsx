@@ -1,11 +1,13 @@
 import { useState } from "react";
 import MovieCard from "./MovieCard";
 import Navbar from "./Navbar";
+import Watchlist from "./Watchlist";
 
 export default function Home(){
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchActive, setIsSearchActive] = useState(false);
   const [activeTab, setActiveTab] = useState("home");
+  const [showWatchlist, setShowWatchlist] = useState(false);
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
@@ -26,12 +28,21 @@ export default function Home(){
         onSearch={handleSearch}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
+        onWatchlistClick={() => setShowWatchlist(true)}
       />
-      <MovieCard 
-        searchQuery={searchQuery} 
-        isSearchActive={isSearchActive}
-        onClearSearch={handleClearSearch}
-        activeTab={activeTab}
+      
+      {!showWatchlist && (
+        <MovieCard 
+          searchQuery={searchQuery} 
+          isSearchActive={isSearchActive}
+          onClearSearch={handleClearSearch}
+          activeTab={activeTab}
+        />
+      )}
+
+      <Watchlist 
+        isOpen={showWatchlist}
+        onClose={() => setShowWatchlist(false)}
       />
     </div>
   );
