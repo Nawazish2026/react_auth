@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import ArrowBack from '@mui/icons-material/ArrowBackIos';
 import ArrowForward from '@mui/icons-material/ArrowForwardIos';
+import MovieDetail from './MovieDetail';
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
@@ -8,7 +9,7 @@ const IMAGE_BASE = "https://image.tmdb.org/t/p/original";
 const POSTER_BASE = "https://image.tmdb.org/t/p/w500";
 
 // --- Sub-Component for regular sections ---
-const MovieSection = ({ title, fetchUrl, searchQuery }) => {
+const MovieSection = ({ title, fetchUrl, searchQuery, onMovieClick }) => {
   const [movies, setMovies] = useState([]);
   const scrollRef = useRef(null);
 
@@ -62,7 +63,11 @@ const MovieSection = ({ title, fetchUrl, searchQuery }) => {
         >
           {filteredMovies.length > 0 ? (
             filteredMovies.map((movie) => (
-              <div key={movie.id} className="flex-shrink-0 group/card">
+              <div 
+                key={movie.id} 
+                className="flex-shrink-0 group/card cursor-pointer"
+                onClick={() => onMovieClick(movie)}
+              >
                 <div className="relative w-44 h-64 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110 hover:-translate-y-3 cursor-pointer border border-gray-700/50 hover:border-pink-500/50">
                   {movie.poster_path ? (
                     <>
@@ -108,7 +113,7 @@ const MovieSection = ({ title, fetchUrl, searchQuery }) => {
 };
 
 // --- Search Results Component ---
-const SearchResults = ({ searchQuery, onClearSearch }) => {
+const SearchResults = ({ searchQuery, onClearSearch, onMovieClick }) => {
   const [allResults, setAllResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const scrollRef = useRef(null);
@@ -213,7 +218,11 @@ const SearchResults = ({ searchQuery, onClearSearch }) => {
               className="flex gap-4 overflow-x-auto scroll-smooth pb-6 px-2"
             >
               {filtered.map((movie) => (
-                <div key={movie.id} className="flex-shrink-0 group/card">
+                <div 
+                  key={movie.id} 
+                  className="flex-shrink-0 group/card cursor-pointer"
+                  onClick={() => onMovieClick(movie)}
+                >
                   <div className="relative w-44 h-64 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-110 hover:-translate-y-3 cursor-pointer border border-gray-700/50 hover:border-pink-500/50">
                     {movie.poster_path ? (
                       <>
@@ -259,6 +268,8 @@ const SearchResults = ({ searchQuery, onClearSearch }) => {
 export default function MovieCard({ searchQuery = "", isSearchActive, onClearSearch, activeTab }) {
   const [ind, setInd] = useState(0);
   const [trending, setTrending] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [showDetail, setShowDetail] = useState(false);
 
   useEffect(() => {
     const fetchTrending = async () => {
@@ -281,6 +292,16 @@ export default function MovieCard({ searchQuery = "", isSearchActive, onClearSea
 
   const handleBack = () => {
     setInd((prevInd) => (prevInd - 1 + trending.length) % trending.length);
+  };
+
+  const handleMovieClick = (movie) => {
+    setSelectedMovie(movie);
+    setShowDetail(true);
+  };
+
+  const handleCloseDetail = () => {
+    setShowDetail(false);
+    setSelectedMovie(null);
   };
 
   const rows = activeTab === 'home' ? [
@@ -307,7 +328,20 @@ export default function MovieCard({ searchQuery = "", isSearchActive, onClearSea
   ];
 
   if (isSearchActive) {
-    return <SearchResults searchQuery={searchQuery} onClearSearch={onClearSearch} />;
+    return (
+      <>
+        <SearchResults 
+          searchQuery={searchQuery} 
+          onClearSearch={onClearSearch}
+          onMovieClick={handleMovieClick}
+        />
+        <MovieDetail 
+          movie={selectedMovie}
+          isOpen={showDetail}
+          onClose={handleCloseDetail}
+        />
+      </>
+    );
   }
 
   return (
@@ -346,7 +380,9 @@ export default function MovieCard({ searchQuery = "", isSearchActive, onClearSea
                 <button className="bg-gradient-to-r from-pink-600 to-pink-500 hover:from-pink-700 hover:to-pink-600 text-white px-8 py-3 rounded-lg font-semibold transition transform hover:scale-105 shadow-lg">
                   ▶ Watch Now
                 </button>
-                <button className="bg-gray-700/50 hover:bg-gray-600 text-white px-8 py-3 rounded-lg font-semibold transition border border-gray-600">
+                <button 
+                  onClick={() => handleMovieClick(trending[ind])}
+                  className="bg-gray-700/50 hover:bg-gray-600 text-white px-8 py-3 rounded-lg font-semibold transition border border-gray-600">
                   ℹ More Info
                 </button>
               </div>
@@ -374,9 +410,21 @@ export default function MovieCard({ searchQuery = "", isSearchActive, onClearSea
 
       <div className="pb-12">
         {rows.map((row, index) => (
-          <MovieSection key={index} title={row.title} fetchUrl={row.url} searchQuery={searchQuery} />
+          <MovieSection 
+            key={index} 
+            title={row.title} 
+            fetchUrl={row.url} 
+            searchQuery={searchQuery}
+            onMovieClick={handleMovieClick}
+          />
         ))}
       </div>
+
+      <MovieDetail 
+        movie={selectedMovie}
+        isOpen={showDetail}
+        onClose={handleCloseDetail}
+      />
     </div>
   );
 }
